@@ -3,7 +3,7 @@ package AlarmClockRadio;
 import java.time.LocalTime;
 
 public class Clock {
-    private LocalTime currentTime;
+    protected LocalTime currentTime;
 
     public Clock(LocalTime currentTime) {
         this.currentTime = currentTime;

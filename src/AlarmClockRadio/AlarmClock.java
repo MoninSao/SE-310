@@ -3,8 +3,8 @@ package AlarmClockRadio;
 import java.time.LocalTime;
 
 public class AlarmClock extends Clock{
-    private LocalTime alarmTime;
-    private boolean isAlarmOn;
+    protected LocalTime alarmTime;
+    protected boolean isAlarmOn;
 
     public AlarmClock(LocalTime alarmTime, boolean isAlarmOn, LocalTime currentTime) {
         super(currentTime);
@@ -33,8 +33,8 @@ public class AlarmClock extends Clock{
         return isAlarmOn;
     }
 
-    public void snooze(LocalTime snoozeTime) {
-        snoozeTime = alarmTime;
-        snoozeTime = snoozeTime.plusMinutes(5);
+    public void snooze() {
+        LocalTime snoozeTime = alarmTime.plusMinutes(5);
+        setAlarm(snoozeTime);
     }
 }
