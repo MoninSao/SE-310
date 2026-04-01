@@ -21,23 +21,22 @@ this course include:
 • Finding well-known software patterns from typical problem specifications
 • Being able to communicate both static and dynamic aspects of designs using Universal
 Modeling Language (UML).
-
 Design skills should be applicable to any of the OO languages (e.g. C++, Java, etc.).
 Grades for design projects will be based, among on other things, on the quality of the design and on the written explanation, description, and justification of the design.
 
-2. To make students confident and competent at implementing an OO design of moderate complexity, using coding techniques based upon generally recognized software engineering principles.
+3. To make students confident and competent at implementing an OO design of moderate complexity, using coding techniques based upon generally recognized software engineering principles.
 Another objective of this course is to make you confident and competent at implementing
 an OO design of moderate complexity, using coding techniques based upon generally recognized
 software engineering principles.
 
-3. To make students more self-aware, descriptive, and reflective about their programming and
+4. To make students more self-aware, descriptive, and reflective about their programming and
 design.
 This objective is to make you more self-aware, descriptive, and reflective about your programming and design. By learning about and practicing with design and quality rationales the
 course will present, you should be able to state, explain, judge, and justify design or implementation decisions in a way that would be generally acceptable among (at least) entry-level
 computing professionals. It is also a necessary step towards being able to continue to improve
 your skill in the future without the need for professors or formal classes.
 
-4. To make student understand how patterns are applied in modern software systems. Finally,
+5. To make student understand how patterns are applied in modern software systems. Finally,
 after this course, the students should be able to understand how modern software systems,
 including the ones that they use everyday, use patterns as building blocks to assemble large,
 resuable software systems.
