@@ -32,9 +32,8 @@ public class AlarmClock {
         return isAlarmOn;
     }
 
-    //change this later
-    public void snooze() {
-        alarmTime = alarmTime.plusMinutes(5);
-
+    public void snooze(LocalTime snoozeTime) {
+        snoozeTime = alarmTime;
+        snoozeTime = snoozeTime.plusMinutes(5);
     }
 }
