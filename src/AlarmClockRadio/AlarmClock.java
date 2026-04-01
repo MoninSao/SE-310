@@ -2,11 +2,12 @@ package AlarmClockRadio;
 
 import java.time.LocalTime;
 
-public class AlarmClock {
+public class AlarmClock extends Clock{
     private LocalTime alarmTime;
     private boolean isAlarmOn;
 
-    public AlarmClock(LocalTime alarmTime, boolean isAlarmOn) {
+    public AlarmClock(LocalTime alarmTime, boolean isAlarmOn, LocalTime currentTime) {
+        super(currentTime);
         this.alarmTime = alarmTime;
         this.isAlarmOn = isAlarmOn;
 
@@ -20,12 +21,12 @@ public class AlarmClock {
         alarmTime = time;
     }
 
-    public boolean turnAlarmOn() {
-        return isAlarmOn = true;
+    public void turnAlarmOn() {
+        isAlarmOn = true;
     }
 
-    public boolean turnAlarmOff() {
-        return isAlarmOn = false;
+    public void turnAlarmOff() {
+        isAlarmOn = false;
     }
 
     public boolean getIsAlarmOn(){
