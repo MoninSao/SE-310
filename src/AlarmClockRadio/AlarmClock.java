@@ -37,4 +37,8 @@ public class AlarmClock extends Clock{
         LocalTime snoozeTime = alarmTime.plusMinutes(5);
         setAlarm(snoozeTime);
     }
+
+    public void tick(){
+        currentTime = currentTime.plusMinutes(1);
+    }
 }

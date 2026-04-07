@@ -7,8 +7,8 @@ public class AlarmClockRadio {
     private AlarmClock myAlarmClock;
     private Radio myRadio;
 
-    public AlarmClockRadio(LocalTime alarmTime, Boolean isALarmOn, LocalTime currentTime, String currentRadioStation) {
-        myAlarmClock = new AlarmClock(alarmTime, isALarmOn, currentTime);
+    public AlarmClockRadio(LocalTime alarmTime, boolean isAlarmOn, LocalTime currentTime, String currentRadioStation) {
+        myAlarmClock = new AlarmClock(alarmTime, isAlarmOn, currentTime);
         myRadio = new Radio(currentRadioStation);
     }
 
