@@ -35,32 +35,57 @@ import maze.ui.MazeViewer;
  * @version 1.0
  * @since 1.0
  */
-public class SimpleMazeGame
-{
+public class SimpleMazeGame {
+
+	// Create 2 room instances first
+	public static Room room0 = new Room(0);
+	public static Room room1 = new Room(1);
+
+	// Create a door between room1 and room0
+	public static Door door1 = new Door(room1, room0);
+
 	/**
 	 * Creates a small maze.
 	 */
-	public static Maze createMaze()
-	{
-		
+	public static Maze createMaze() {
+
+		// Create a new maze
 		Maze maze = new Maze();
-		System.out.println("The maze does not have any rooms yet!");
+		// Create a 2 room maze
+		maze.addRoom(room0);
+		maze.addRoom(room1);
+		System.out.println("number of rooms in the maze: " + maze.getNumberOfRooms());
+
+		// a. you must set the current room number
+		maze.setCurrentRoom(room0);
+		System.out.println("The curretn room you are in " + maze.getCurrentRoom().toString());
+
+		// b. Rooms must be completed with walls and doors
+
+		// Room 0 wall and doors
+		room0.setSide(Direction.North, new Wall());
+		room0.setSide(Direction.South, new Wall());
+		room0.setSide(Direction.East, new Wall());
+		room0.setSide(Direction.West, door1); // will connect to room 2
+		// Room 1 wall and doors
+		room1.setSide(Direction.North, new Wall());
+		room1.setSide(Direction.South, new Wall());
+		room1.setSide(Direction.East, door1); // will connect to room 2
+		room1.setSide(Direction.West, new Wall());
+
 		return maze;
-		
 
 	}
 
-	public static Maze loadMaze(final String path)
-	{
+	public static Maze loadMaze(final String path) {
 		Maze maze = new Maze();
 		System.out.println("Please load a maze from the file!");
 		return maze;
 	}
 
-	public static void main(String[] args)
-	{
+	public static void main(String[] args) {
 		Maze maze = createMaze();
-	    MazeViewer viewer = new MazeViewer(maze);
-	    viewer.run();
+		MazeViewer viewer = new MazeViewer(maze);
+		viewer.run();
 	}
 }
