@@ -2,7 +2,7 @@ package AlarmClockRadio;
 
 import java.time.LocalTime;
 
-public class AlarmClock extends Clock{
+public class AlarmClock extends Clock {
     protected LocalTime alarmTime;
     protected boolean isAlarmOn;
 
@@ -29,16 +29,17 @@ public class AlarmClock extends Clock{
         isAlarmOn = false;
     }
 
-    public boolean getIsAlarmOn(){
+    public boolean getIsAlarmOn() {
         return isAlarmOn;
     }
 
     public void snooze() {
-        LocalTime snoozeTime = alarmTime.plusMinutes(5);
+        LocalTime snoozeTime = alarmTime.plusMinutes(9); // according to the instruction it should be 9
         setAlarm(snoozeTime);
     }
 
-    public void tick(){
-        currentTime = currentTime.plusMinutes(1);
+    // should increase the second the minute
+    public void tick() {
+        currentTime = currentTime.plusSeconds(1);
     }
 }
