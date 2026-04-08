@@ -7,9 +7,10 @@ public class AlarmClockRadio {
     private AlarmClock myAlarmClock;
     private Radio myRadio;
 
-    public AlarmClockRadio(LocalTime alarmTime, boolean isAlarmOn, LocalTime currentTime, String currentRadioStation) {
+    public AlarmClockRadio(LocalTime alarmTime, boolean isAlarmOn, LocalTime currentTime, String currentRadioStation,
+            int currentVolume, boolean isRadioOn) {
         myAlarmClock = new AlarmClock(alarmTime, isAlarmOn, currentTime);
-        myRadio = new Radio(currentRadioStation);
+        myRadio = new Radio(currentRadioStation, currentVolume, isRadioOn);
     }
 
     public String getRadioStation() {
@@ -18,6 +19,26 @@ public class AlarmClockRadio {
 
     public void setRadioStation(String station) {
         myRadio.setRadioStation(station);
+    }
+
+    public int getVolume() {
+        return myRadio.getVolume();
+    }
+
+    public void setVolume(int volume) {
+        myRadio.setVolume(volume);
+    }
+
+    public boolean getIsRadioOn() {
+        return myRadio.getIsRadioOn();
+    }
+
+    public void turnRadioOn() {
+        myRadio.turnRadioOn();
+    }
+
+    public void turnRadioOff() {
+        myRadio.turnRadioOff();
     }
 
     public LocalTime getCurrentTime() {
@@ -32,23 +53,27 @@ public class AlarmClockRadio {
         return myAlarmClock.getAlarm();
     }
 
-    public void setAlarm(LocalTime time){
+    public void setAlarm(LocalTime time) {
         myAlarmClock.setAlarm(time);
     }
 
-    public void turnAlarmOn(){
+    public void turnAlarmOn() {
         myAlarmClock.turnAlarmOn();
     }
 
-    public void turnAlarmOff(){
+    public void turnAlarmOff() {
         myAlarmClock.turnAlarmOff();
     }
 
-    public boolean isAlarmOn() {
-       return myAlarmClock.getIsAlarmOn();
+    public boolean getIsAlarmOn() {
+        return myAlarmClock.getIsAlarmOn();
     }
 
     public void snooze() {
         myAlarmClock.snooze();
+    }
+
+    public void tick() {
+        myAlarmClock.tick();
     }
 }

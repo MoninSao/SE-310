@@ -1,36 +1,41 @@
 package AlarmClockRadio;
 
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 
 public class main {
     public static void main(String[] args) {
         int i;
+        DateTimeFormatter fmt = DateTimeFormatter.ofPattern("h:mm a");
         LocalTime alarmTime = LocalTime.of(8, 6);
         LocalTime currentTime = LocalTime.of(8, 0);
-        AlarmClock myAlarmClock = new AlarmClock(alarmTime, true, currentTime);
+        AlarmClockRadio myAlarmClock = new AlarmClockRadio(alarmTime, true, currentTime, "1060 AM", 100, true);
+
+        System.out.println("Initial Time: 8:00 AM");
+        System.out.println("The radio was turned on and is playing " + myAlarmClock.getRadioStation());
 
         for (i = 0; i < 6; i++) {
-            System.out.println("Time: " + myAlarmClock.getCurrentTime() + " AM");
+            System.out.println("Time: " + myAlarmClock.getCurrentTime().format(fmt));
 
             for (int seconds = 0; seconds < 60; seconds++) {
                 myAlarmClock.tick(); // tick is called 60 times to increase the time to 1 minute
             }
         }
         if ((myAlarmClock.getCurrentTime().equals(alarmTime)) && (myAlarmClock.getIsAlarmOn() == true)) {
-            System.out.println("Buzz, Buzz, Buzz");
+            System.out.println("Buzz Buzz Buzz");
         }
 
         myAlarmClock.snooze();
         System.out.println("Snooze was pressed");
 
         for (i = 0; i < 9; i++) {
-            System.out.println("Time: " + myAlarmClock.getCurrentTime() + " AM");
+            System.out.println("Time: " + myAlarmClock.getCurrentTime().format(fmt));
             for (int seconds = 0; seconds < 60; seconds++) {
                 myAlarmClock.tick();
             }
         }
         if ((myAlarmClock.getCurrentTime().equals(myAlarmClock.getAlarm())) && (myAlarmClock.getIsAlarmOn() == true)) {
-            System.out.println("Buzz, Buzz, Buzz");
+            System.out.println("Buzz Buzz Buzz");
         }
         myAlarmClock.turnAlarmOff();
         if (myAlarmClock.getIsAlarmOn() == false) {
