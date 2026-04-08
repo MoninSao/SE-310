@@ -4,17 +4,18 @@ import java.time.LocalTime;
 
 public class AlarmClock extends Clock {
     protected LocalTime alarmTime;
+    protected LocalTime snoozeAlarmTime;
     protected boolean isAlarmOn;
 
     public AlarmClock(LocalTime alarmTime, boolean isAlarmOn, LocalTime currentTime) {
         super(currentTime);
         this.alarmTime = alarmTime;
+        this.snoozeAlarmTime = null;
         this.isAlarmOn = isAlarmOn;
-
     }
 
     public LocalTime getAlarm() {
-        return alarmTime;
+        return (snoozeAlarmTime != null) ? snoozeAlarmTime : alarmTime;
     }
 
     public void setAlarm(LocalTime time) {
@@ -27,6 +28,7 @@ public class AlarmClock extends Clock {
 
     public void turnAlarmOff() {
         isAlarmOn = false;
+        snoozeAlarmTime = null;
     }
 
     public boolean getIsAlarmOn() {
@@ -34,8 +36,8 @@ public class AlarmClock extends Clock {
     }
 
     public void snooze() {
-        LocalTime snoozeTime = alarmTime.plusMinutes(9); // according to the instruction it should be 9
-        setAlarm(snoozeTime);
+        snoozeAlarmTime = alarmTime.plusMinutes(9);
+        isAlarmOn = true;
     }
 
     // should increase the second the minute

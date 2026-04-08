@@ -11,7 +11,6 @@ public class main {
         LocalTime currentTime = LocalTime.of(8, 0);
         AlarmClockRadio myAlarmClock = new AlarmClockRadio(alarmTime, true, currentTime, "1060 AM", 100, true);
 
-        System.out.println("Initial Time: 8:00 AM");
         System.out.println("The radio was turned on and is playing " + myAlarmClock.getRadioStation());
 
         for (i = 0; i < 6; i++) {
@@ -22,7 +21,7 @@ public class main {
             }
         }
         if ((myAlarmClock.getCurrentTime().equals(alarmTime)) && (myAlarmClock.getIsAlarmOn() == true)) {
-            System.out.println("Buzz Buzz Buzz");
+            System.out.println("The radio is playing " + myAlarmClock.getRadioStation());
         }
 
         myAlarmClock.snooze();
@@ -35,11 +34,13 @@ public class main {
             }
         }
         if ((myAlarmClock.getCurrentTime().equals(myAlarmClock.getAlarm())) && (myAlarmClock.getIsAlarmOn() == true)) {
-            System.out.println("Buzz Buzz Buzz");
+            System.out.println("The radio is playing " + myAlarmClock.getRadioStation());
         }
         myAlarmClock.turnAlarmOff();
         if (myAlarmClock.getIsAlarmOn() == false) {
             System.out.println("The alarm was shut off");
         }
+
+        System.out.println("The alarm time is: " + myAlarmClock.getAlarm().format(fmt));
     }
 }
