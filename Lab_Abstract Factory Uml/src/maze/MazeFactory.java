@@ -33,57 +33,21 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
 
-import maze.ui.MazeViewer;
-
 /**
  * 
  * @author Sunny
  * @version 1.0
  * @since 1.0
  */
-public class SimpleMazeGame {
+public abstract class MazeFactory {
 
-	// Create 2 room instances first
-	public static Room room0 = new Room(0);
-	public static Room room1 = new Room(1);
+	public abstract Wall makeWall();
 
-	// Create a door between room1 and room0
-	public static Door door1 = new Door(room1, room0);
+	public abstract Door makeDoor(Room r1, Room r2);
 
-	/**
-	 * Creates a small maze.
-	 */
-	public static Maze createMaze() {
+	public abstract Room makeRoom(int num);
 
-		// Create a new maze
-		Maze maze = new Maze();
-		// Create a 2 room maze
-		maze.addRoom(room0);
-		maze.addRoom(room1);
-		System.out.println("number of rooms in the maze: " + maze.getNumberOfRooms());
-
-		// a. you must set the current room number
-		maze.setCurrentRoom(room0);
-		System.out.println("The curretn room you are in " + maze.getCurrentRoom().toString());
-
-		// b. Rooms must be completed with walls and doors
-
-		// Room 0 wall and doors
-		room0.setSide(Direction.North, new Wall());
-		room0.setSide(Direction.South, new Wall());
-		room0.setSide(Direction.East, new Wall());
-		room0.setSide(Direction.West, door1); // will connect to room 2
-		// Room 1 wall and doors
-		room1.setSide(Direction.North, new Wall());
-		room1.setSide(Direction.South, new Wall());
-		room1.setSide(Direction.East, door1); // will connect to room 2
-		room1.setSide(Direction.West, new Wall());
-
-		return maze;
-
-	}
-
-	public static Maze loadMaze(final String path) {
+	public Maze loadMaze(final String path) {
 		Maze maze = new Maze();
 		HashMap<Integer, Room> rooms = new HashMap<>();
 		HashMap<String, Door> doors = new HashMap<>();
@@ -104,7 +68,7 @@ public class SimpleMazeGame {
 			for (String[] tokens : lines) {
 				if (tokens[0].equals("room")) {
 					int num = Integer.parseInt(tokens[1]);
-					rooms.put(num, new Room(num));
+					rooms.put(num, makeRoom(num));
 				}
 			}
 
@@ -113,7 +77,7 @@ public class SimpleMazeGame {
 				if (tokens[0].equals("door")) {
 					Room r1 = rooms.get(Integer.parseInt(tokens[2]));
 					Room r2 = rooms.get(Integer.parseInt(tokens[3]));
-					Door d = new Door(r1, r2);
+					Door d = makeDoor(r1, r2);
 					d.setOpen(tokens[4].equalsIgnoreCase("open"));
 					doors.put(tokens[1], d);
 				}
@@ -141,7 +105,7 @@ public class SimpleMazeGame {
 							}
 							if (r2 == null)
 								r2 = r1;
-							doors.put(side, new Door(r1, r2));
+							doors.put(side, makeDoor(r1, r2));
 						}
 					}
 				}
@@ -155,7 +119,7 @@ public class SimpleMazeGame {
 					for (int i = 0; i < 4; i++) {
 						String side = tokens[i + 2];
 						if (side.equals("wall")) {
-							room.setSide(dirs[i], new Wall());
+							room.setSide(dirs[i], makeWall());
 						} else if (side.startsWith("d")) {
 							room.setSide(dirs[i], doors.get(side));
 						} else {
@@ -178,9 +142,4 @@ public class SimpleMazeGame {
 		return maze;
 	}
 
-	public static void main(String[] args) {
-		Maze maze = loadMaze("large.maze");
-		MazeViewer viewer = new MazeViewer(maze);
-		viewer.run();
-	}
 }
