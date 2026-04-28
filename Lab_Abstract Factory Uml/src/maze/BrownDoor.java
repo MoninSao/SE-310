@@ -9,6 +9,6 @@ public class BrownDoor extends Door {
 
     @Override
     public Color getColor() {
-        return Color.ORANGE;
+        return new Color(139, 69, 19);
     }
 }
