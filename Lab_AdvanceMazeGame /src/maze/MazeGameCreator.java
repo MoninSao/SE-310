@@ -49,40 +49,7 @@ public abstract class MazeGameCreator {
 
 	public abstract Room makeRoom(int num);
 
-	/**
-	 * Creates a small maze.
-	 */
-	public static Maze createMaze() {
-
-		// Create a new maze
-		Maze maze = new Maze();
-		// Create a 2 room maze
-		maze.addRoom(room0);
-		maze.addRoom(room1);
-		System.out.println("number of rooms in the maze: " + maze.getNumberOfRooms());
-
-		// a. you must set the current room number
-		maze.setCurrentRoom(room0);
-		System.out.println("The curretn room you are in " + maze.getCurrentRoom().toString());
-
-		// b. Rooms must be completed with walls and doors
-
-		// Room 0 wall and doors
-		room0.setSide(Direction.North, new Wall());
-		room0.setSide(Direction.South, new Wall());
-		room0.setSide(Direction.East, new Wall());
-		room0.setSide(Direction.West, door1); // will connect to room 2
-		// Room 1 wall and doors
-		room1.setSide(Direction.North, new Wall());
-		room1.setSide(Direction.South, new Wall());
-		room1.setSide(Direction.East, door1); // will connect to room 2
-		room1.setSide(Direction.West, new Wall());
-
-		return maze;
-
-	}
-
-	public static Maze loadMaze(final String path) {
+	public Maze loadMaze(final String path) {
 		Maze maze = new Maze();
 		HashMap<Integer, Room> rooms = new HashMap<>();
 		HashMap<String, Door> doors = new HashMap<>();
@@ -112,7 +79,7 @@ public abstract class MazeGameCreator {
 				if (tokens[0].equals("door")) {
 					Room r1 = rooms.get(Integer.parseInt(tokens[2]));
 					Room r2 = rooms.get(Integer.parseInt(tokens[3]));
-					Door d = new Door(r1, r2);
+					Door d = makeDoor(r1, r2);
 					d.setOpen(tokens[4].equalsIgnoreCase("open"));
 					doors.put(tokens[1], d);
 				}
@@ -178,8 +145,41 @@ public abstract class MazeGameCreator {
 	}
 
 	public static void main(String[] args) {
-		Maze maze = loadMaze("large.maze");
+		Scanner in = new Scanner(System.in);
+		System.out.println("Please choose the type of maze you want: basic, redmaze, bluemaze");
+		System.out.println("\n");
+		String choice = in.nextLine().toLowerCase().trim();
+		in.close();
+
+		MazeGameCreator creator;
+
+		switch (choice) {
+			case "basic":
+				creator = new RedMazeGameCreator();
+				break;
+			case "redmaze":
+				creator = new RedMazeGameCreator();
+				break;
+
+			case "bluemaze":
+				creator = new BlueMazeGameCreator();
+				break;
+
+			default:
+				System.out.println("Invalid choice, defaulting to basic.");
+				creator = new RedMazeGameCreator();
+				break;
+		}
+
+		// Try large.maze first, fall back to small.maze
+		Maze maze = creator.loadMaze("large.maze");
+		if (maze.getNumberOfRooms() == 0) {
+			System.out.println("Could not load large.maze, trying small.maze...");
+			maze = creator.loadMaze("small.maze");
+		}
+
 		MazeViewer viewer = new MazeViewer(maze);
 		viewer.run();
+
 	}
 }
