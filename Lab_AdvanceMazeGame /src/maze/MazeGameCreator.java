@@ -43,12 +43,11 @@ import maze.ui.MazeViewer;
  */
 public abstract class MazeGameCreator {
 
-	// Create 2 room instances first
-	public static Room room0 = new Room(0);
-	public static Room room1 = new Room(1);
+	public abstract Wall makeWall();
 
-	// Create a door between room1 and room0
-	public static Door door1 = new Door(room1, room0);
+	public abstract Door makeDoor(Room r1, Room r2);
+
+	public abstract Room makeRoom(int num);
 
 	/**
 	 * Creates a small maze.
@@ -104,7 +103,7 @@ public abstract class MazeGameCreator {
 			for (String[] tokens : lines) {
 				if (tokens[0].equals("room")) {
 					int num = Integer.parseInt(tokens[1]);
-					rooms.put(num, new Room(num));
+					rooms.put(num, makeRoom(num));
 				}
 			}
 
@@ -141,7 +140,7 @@ public abstract class MazeGameCreator {
 							}
 							if (r2 == null)
 								r2 = r1;
-							doors.put(side, new Door(r1, r2));
+							doors.put(side, makeDoor(r1, r2));
 						}
 					}
 				}
@@ -155,7 +154,7 @@ public abstract class MazeGameCreator {
 					for (int i = 0; i < 4; i++) {
 						String side = tokens[i + 2];
 						if (side.equals("wall")) {
-							room.setSide(dirs[i], new Wall());
+							room.setSide(dirs[i], makeWall());
 						} else if (side.startsWith("d")) {
 							room.setSide(dirs[i], doors.get(side));
 						} else {
@@ -177,12 +176,6 @@ public abstract class MazeGameCreator {
 
 		return maze;
 	}
-
-	public abstract Wall makeWall();
-
-	public abstract Door makeDoor();
-
-	public abstract Room makeRoom();
 
 	public static void main(String[] args) {
 		Maze maze = loadMaze("large.maze");
