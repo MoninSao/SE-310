@@ -41,7 +41,7 @@ import maze.ui.MazeViewer;
  * @version 1.0
  * @since 1.0
  */
-public class SimpleMazeGame {
+public abstract class MazeGameCreator {
 
 	// Create 2 room instances first
 	public static Room room0 = new Room(0);
@@ -177,6 +177,12 @@ public class SimpleMazeGame {
 
 		return maze;
 	}
+
+	public abstract Wall makeWall();
+
+	public abstract Door makeDoor();
+
+	public abstract Room makeRoom();
 
 	public static void main(String[] args) {
 		Maze maze = loadMaze("large.maze");

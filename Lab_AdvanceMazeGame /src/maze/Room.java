@@ -35,40 +35,31 @@ import java.awt.Color;
  * @version 1.0
  * @since 1.0
  */
-public class Room extends MapSite
-{
+public abstract class Room extends MapSite {
 	private final MapSite[] sides = new MapSite[4];
 	private final int number;
-	
-	public Room(int num)
-	{
+
+	public Room(int num) {
 		number = num;
 	}
 
-	public final MapSite getSide(Direction dir)
-	{
+	public final MapSite getSide(Direction dir) {
 		return sides[dir.ordinal()];
 	}
-	
-	public final void setSide(Direction dir, MapSite site)
-	{
+
+	public final void setSide(Direction dir, MapSite site) {
 		sides[dir.ordinal()] = site;
 	}
 
-	public final int getNumber()
-	{
+	public final int getNumber() {
 		return number;
 	}
 
 	@Override
-	public void enter()
-	{
+	public void enter() {
 		super.notifyEntryListeners();
 	}
 
 	@Override
-	public Color getColor()
-	{
-		return Color.WHITE;
-	}
+	public abstract Color getColor();
 }

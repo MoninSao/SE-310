@@ -35,30 +35,25 @@ import java.awt.Color;
  * @version 1.0
  * @since 1.0
  */
-public class Door extends MapSite
-{
+public abstract class Door extends MapSite {
 	private final Room[] rooms = new Room[2];
 	private boolean open;
 
-	public Door(final Room r1, final Room r2)
-	{
+	public Door(final Room r1, final Room r2) {
 		open = false;
 		rooms[0] = r1;
 		rooms[1] = r2;
 	}
-	
-	public final boolean isOpen()
-	{
+
+	public final boolean isOpen() {
 		return open;
 	}
-	
-	public final void setOpen(boolean open)
-	{
+
+	public final void setOpen(boolean open) {
 		this.open = open;
 	}
-	
-	public final Room getOtherSide(final Room r)
-	{
+
+	public final Room getOtherSide(final Room r) {
 		if (rooms[0] == r)
 			return rooms[1];
 		else if (rooms[1] == r)
@@ -66,10 +61,9 @@ public class Door extends MapSite
 		else
 			return null;
 	}
-	
+
 	@Override
-	public void enter()
-	{
+	public void enter() {
 		if (!open) {
 			System.out.println("Opened the door.");
 			open = true;
@@ -77,10 +71,8 @@ public class Door extends MapSite
 
 		super.notifyEntryListeners();
 	}
-	
+
 	@Override
-	public Color getColor()
-	{
-		return Color.LIGHT_GRAY;
-	}
+	public abstract Color getColor();
+
 }

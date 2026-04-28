@@ -35,17 +35,12 @@ import java.awt.Color;
  * @version 1.0
  * @since 1.0
  */
-public class Wall extends MapSite
-{
+public abstract class Wall extends MapSite {
 	@Override
-	public void enter()
-	{
+	public void enter() {
 		System.out.println("Ouch! Ran into a wall.");
 	}
 
 	@Override
-	public Color getColor()
-	{
-		return Color.BLACK;
-	}
+	public abstract Color getColor();
 }
