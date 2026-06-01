@@ -315,10 +315,22 @@ public class TestManager {
 
         // Step 3: grade and display
         double score = test.grade(sr);
-        output.println("=== Grade Report ===");
-        output.println("Test:        " + test.getName());
-        output.println("Respondent:  " + sr.getRespondentId());
-        output.println(String.format("Score:       %.1f / 100.0", score));
+        int essayCount = test.getEssayCount();
+        int totalQuestions = test.getQuestions().size();
+        int gradeableCount = test.getGradeableCount();
+        int roundedScore = (int) Math.round(score);
+
+        String gradeString;
+        if (essayCount == 0) {
+            gradeString = "You received a " + roundedScore + " on the test.";
+        } else {
+            int autoPoints = (int) Math.round(gradeableCount * (100.0 / totalQuestions));
+            gradeString = "You received a " + roundedScore + " on the test."
+                    + " The test was worth 100 points, but only " + autoPoints
+                    + " of those points could be auto graded because there was "
+                    + essayCount + " essay question(s).";
+        }
+        output.println(gradeString);
     }
 
     // -------------------------------------------------------------------------
