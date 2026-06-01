@@ -5,6 +5,8 @@ import survey.io.OutputHandler;
 import survey.model.response.EssayResponse;
 import survey.model.response.Response;
 
+import java.util.List;
+
 /**
  * An essay question that accepts one or more free-text responses.
  * ShortAnswer extends this class with a character limit.
@@ -92,5 +94,20 @@ public class Essay extends Question {
     @Override
     public boolean validateAnswer(String answer) {
         return answer != null && !answer.trim().isEmpty();
+    }
+
+    /**
+     * Lists every answer verbatim — one line per answer, no counting.
+     *
+     * @param responses the collected responses for this question
+     * @param output    the OutputHandler to write to
+     */
+    @Override
+    public void tabulate(List<Response> responses, OutputHandler output) {
+        for (Response r : responses) {
+            for (String ans : r.getAnswers()) {
+                output.println(ans);
+            }
+        }
     }
 }

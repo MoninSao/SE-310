@@ -5,6 +5,10 @@ import survey.io.OutputHandler;
 import survey.model.response.Response;
 import survey.model.response.ShortAnswerResponse;
 
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+
 /**
  * A short-answer question with an enforced character limit.
  * Extends Essay because short answers are a constrained form of free-text
@@ -116,5 +120,25 @@ public class ShortAnswer extends Essay {
     @Override
     public boolean validateAnswer(String answer) {
         return answer != null && !answer.trim().isEmpty() && answer.length() <= maxChars;
+    }
+
+    /**
+     * Counts occurrences of each distinct answer string and prints
+     * one line per distinct value in the form "value: n".
+     *
+     * @param responses the collected responses for this question
+     * @param output    the OutputHandler to write to
+     */
+    @Override
+    public void tabulate(List<Response> responses, OutputHandler output) {
+        LinkedHashMap<String, Integer> counts = new LinkedHashMap<>();
+        for (Response r : responses) {
+            for (String ans : r.getAnswers()) {
+                counts.put(ans, counts.getOrDefault(ans, 0) + 1);
+            }
+        }
+        for (Map.Entry<String, Integer> entry : counts.entrySet()) {
+            output.println(entry.getKey() + ": " + entry.getValue());
+        }
     }
 }

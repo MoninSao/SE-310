@@ -6,7 +6,9 @@ import survey.model.response.MultipleChoiceResponse;
 import survey.model.response.Response;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * A multiple-choice question with a list of labelled choices (A, B, C …).
@@ -175,5 +177,31 @@ public class MultipleChoice extends Question {
             return false;
         char c = Character.toUpperCase(answer.trim().charAt(0));
         return c >= 'A' && c < (char) ('A' + choices.size());
+    }
+
+    /**
+     * Counts how many times each choice letter appears across all responses
+     * and prints one line per letter in the form "A: n".
+     *
+     * @param responses the collected responses for this question
+     * @param output    the OutputHandler to write to
+     */
+    @Override
+    public void tabulate(List<Response> responses, OutputHandler output) {
+        LinkedHashMap<String, Integer> counts = new LinkedHashMap<>();
+        for (int i = 0; i < choices.size(); i++) {
+            counts.put(String.valueOf((char) ('A' + i)), 0);
+        }
+        for (Response r : responses) {
+            for (String ans : r.getAnswers()) {
+                String key = ans.trim().toUpperCase();
+                if (counts.containsKey(key)) {
+                    counts.put(key, counts.get(key) + 1);
+                }
+            }
+        }
+        for (Map.Entry<String, Integer> entry : counts.entrySet()) {
+            output.println(entry.getKey() + ": " + entry.getValue());
+        }
     }
 }

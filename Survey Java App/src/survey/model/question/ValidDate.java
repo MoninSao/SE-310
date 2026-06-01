@@ -8,6 +8,9 @@ import survey.model.response.ValidDateResponse;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * A date question that requires a valid calendar date as an answer.
@@ -104,6 +107,26 @@ public class ValidDate extends Question {
             return true;
         } catch (DateTimeParseException e) {
             return false;
+        }
+    }
+
+    /**
+     * Counts occurrences of each distinct date string and prints
+     * one line per distinct date in the form "YYYY-MM-DD: n".
+     *
+     * @param responses the collected responses for this question
+     * @param output    the OutputHandler to write to
+     */
+    @Override
+    public void tabulate(List<Response> responses, OutputHandler output) {
+        LinkedHashMap<String, Integer> counts = new LinkedHashMap<>();
+        for (Response r : responses) {
+            for (String ans : r.getAnswers()) {
+                counts.put(ans, counts.getOrDefault(ans, 0) + 1);
+            }
+        }
+        for (Map.Entry<String, Integer> entry : counts.entrySet()) {
+            output.println(entry.getKey() + ": " + entry.getValue());
         }
     }
 }

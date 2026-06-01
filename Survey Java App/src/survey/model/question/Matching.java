@@ -6,7 +6,9 @@ import survey.model.response.MatchingResponse;
 import survey.model.response.Response;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * A matching question with two columns.
@@ -195,5 +197,25 @@ public class Matching extends Question {
     @Override
     public boolean validateAnswer(String answer) {
         return answer != null && !answer.trim().isEmpty();
+    }
+
+    /**
+     * Groups responses by their permutation key (answers joined with newlines)
+     * and prints each unique permutation block followed by its count.
+     *
+     * @param responses the collected responses for this question
+     * @param output    the OutputHandler to write to
+     */
+    @Override
+    public void tabulate(List<Response> responses, OutputHandler output) {
+        LinkedHashMap<String, Integer> counts = new LinkedHashMap<>();
+        for (Response r : responses) {
+            String key = String.join("\n", r.getAnswers());
+            counts.put(key, counts.getOrDefault(key, 0) + 1);
+        }
+        for (Map.Entry<String, Integer> entry : counts.entrySet()) {
+            output.println(entry.getKey());
+            output.println("  Count: " + entry.getValue());
+        }
     }
 }

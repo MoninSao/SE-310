@@ -5,6 +5,7 @@ import survey.io.OutputHandler;
 import survey.model.response.Response;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * Abstract base class for all survey question types.
@@ -87,4 +88,14 @@ public abstract class Question implements Serializable {
      * @return true if the answer is acceptable
      */
     public abstract boolean validateAnswer(String answer);
+
+    /**
+     * Aggregates all collected responses for this question and prints a
+     * tabulation summary to the given output.
+     *
+     * @param responses the per-question Response objects collected across all
+     *                  survey takers
+     * @param output    the OutputHandler to write results to
+     */
+    public abstract void tabulate(List<Response> responses, OutputHandler output);
 }
