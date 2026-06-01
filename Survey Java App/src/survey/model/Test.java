@@ -53,6 +53,12 @@ public class Test extends Survey {
      * @param a     the new correct answer string (or null for essay)
      */
     public void setCorrectAnswer(int index, String a) {
+        // Pad with nulls if the list is shorter than the target index so that
+        // a loaded test whose correctAnswers list is somehow out of sync with
+        // questions never causes an IndexOutOfBoundsException.
+        while (correctAnswers.size() <= index) {
+            correctAnswers.add(null);
+        }
         correctAnswers.set(index, a);
     }
 

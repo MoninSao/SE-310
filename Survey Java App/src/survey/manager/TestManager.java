@@ -320,17 +320,33 @@ public class TestManager {
         int gradeableCount = test.getGradeableCount();
         int roundedScore = (int) Math.round(score);
 
+        String article = scoreArticle(roundedScore);
         String gradeString;
         if (essayCount == 0) {
-            gradeString = "You received a " + roundedScore + " on the test.";
+            gradeString = "You received " + article + " " + roundedScore + " on the test.";
         } else {
             int autoPoints = (int) Math.round(gradeableCount * (100.0 / totalQuestions));
-            gradeString = "You received a " + roundedScore + " on the test."
+            String essayClause = essayCount == 1
+                    ? "there was one essay question"
+                    : "there were " + essayCount + " essay questions";
+            gradeString = "You received " + article + " " + roundedScore + " on the test."
                     + " The test was worth 100 points, but only " + autoPoints
-                    + " of those points could be auto graded because there was "
-                    + essayCount + " essay question(s).";
+                    + " of those points could be auto graded because " + essayClause + ".";
         }
         output.println(gradeString);
+    }
+
+    /**
+     * Returns the grammatically correct indefinite article ("a" or "an") for
+     * a numeric score so the grade sentence reads naturally.
+     * Scores pronounced with a leading vowel sound: 8, 11, 18, and 80–89.
+     */
+    private String scoreArticle(int score) {
+        if (score == 8 || score == 11 || score == 18
+                || (score >= 80 && score <= 89)) {
+            return "an";
+        }
+        return "a";
     }
 
     // -------------------------------------------------------------------------
