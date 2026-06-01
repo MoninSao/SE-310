@@ -168,7 +168,7 @@ public class Matching extends Question {
      * @param size the number of items in each column
      * @return true if the pair is valid
      */
-    private boolean isValidPair(String ans, int size) {
+    public boolean isValidPair(String ans, int size) {
         if (ans == null)
             return false;
         String[] parts = ans.trim().split("\\s+");

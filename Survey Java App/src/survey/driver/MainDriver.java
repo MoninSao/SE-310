@@ -10,7 +10,8 @@ import java.util.List;
 
 /**
  * Top-level application controller.
- * Creates shared I/O handlers and routes to either the survey or test subsystem.
+ * Creates shared I/O handlers and routes to either the survey or test
+ * subsystem.
  *
  * Menu 1 — Survey | Test | Quit
  */
