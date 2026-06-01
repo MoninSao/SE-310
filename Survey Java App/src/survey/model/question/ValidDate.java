@@ -126,7 +126,7 @@ public class ValidDate extends Question {
             }
         }
         for (Map.Entry<String, Integer> entry : counts.entrySet()) {
-            output.println(entry.getKey() + ": " + entry.getValue());
+            output.println(entry.getKey() + " " + entry.getValue());
         }
     }
 }

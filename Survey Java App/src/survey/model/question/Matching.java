@@ -215,7 +215,7 @@ public class Matching extends Question {
         }
         for (Map.Entry<String, Integer> entry : counts.entrySet()) {
             output.println(entry.getKey());
-            output.println("  Count: " + entry.getValue());
+            output.println(entry.getValue());
         }
     }
 }
