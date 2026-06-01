@@ -118,8 +118,10 @@ public class Test extends Survey {
                 continue;
             }
             String correct = correctAnswers.get(i);
-            if (correct != null
-                    && responses.get(i).getAnswers().get(0).equalsIgnoreCase(correct)) {
+            // Join all answers with "\n" so Matching (multi-answer) is compared
+            // correctly; single-answer types produce the same result as .get(0).
+            String studentAnswer = String.join("\n", responses.get(i).getAnswers());
+            if (correct != null && studentAnswer.equalsIgnoreCase(correct)) {
                 score += pointsEach;
             }
         }

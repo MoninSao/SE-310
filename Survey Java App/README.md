@@ -52,7 +52,9 @@ Survey Java App/
 └── responses/          # Serialized response files (*.ser)
     ├── Alice_all_question_types_test_<ts>.ser
     ├── Bob_all_question_types_test_<ts>.ser
-    └── Carol_all_question_types_test_<ts>.ser
+    ├── Carol_all_question_types_test_<ts>.ser
+    ├── TestUser_sample_survey_<ts>.ser    (×2)
+    └── ...                                (new responses saved here at runtime)
 ```
 
 ---
