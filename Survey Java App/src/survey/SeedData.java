@@ -23,33 +23,33 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 /**
- * Seed program — generates sample serialized artifacts without user interaction.
+ * Seed program — generates sample serialized artifacts without user
+ * interaction.
  *
  * Produces:
- *   tests/all_question_types_test.ser   — a Test with all 6 question types
- *   responses/Alice_all_question_types_test_<ts>.ser
- *   responses/Bob_all_question_types_test_<ts>.ser
- *   responses/Carol_all_question_types_test_<ts>.ser
+ * tests/all_question_types_test.ser — a Test with all 6 question types
+ * responses/Alice_all_question_types_test_<ts>.ser
+ * responses/Bob_all_question_types_test_<ts>.ser
+ * responses/Carol_all_question_types_test_<ts>.ser
  *
  * Run once from the project root after compiling:
- *   java -cp out survey.SeedData
+ * java -cp out survey.SeedData
  */
 public class SeedData {
 
-    private static final DateTimeFormatter TS_FMT =
-            DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss");
+    private static final DateTimeFormatter TS_FMT = DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss");
 
     public static void main(String[] args) throws IOException {
 
         // ------------------------------------------------------------------ //
-        //  Build the test                                                      //
+        // Build the test //
         // ------------------------------------------------------------------ //
         Test test = new Test("all_question_types_test");
 
         // 1 — True / False
         TrueFalse q1 = new TrueFalse("Is Java a purely object-oriented language?");
         test.addQuestion(q1);
-        test.addCorrectAnswer("False");   // primitives exist → False
+        test.addCorrectAnswer("False"); // primitives exist → False
 
         // 2 — Multiple Choice (single answer)
         MultipleChoice q2 = new MultipleChoice(
@@ -59,7 +59,7 @@ public class SeedData {
         q2.addChoice("inherits");
         q2.addChoice("super");
         test.addQuestion(q2);
-        test.addCorrectAnswer("B");       // extends
+        test.addCorrectAnswer("B"); // extends
 
         // 3 — Short Answer
         ShortAnswer q3 = new ShortAnswer(
@@ -67,7 +67,7 @@ public class SeedData {
         test.addQuestion(q3);
         test.addCorrectAnswer("int");
 
-        // 4 — Essay  (null correct answer — not auto-graded)
+        // 4 — Essay (null correct answer — not auto-graded)
         Essay q4 = new Essay(
                 "Explain the concept of polymorphism in your own words.", false);
         test.addQuestion(q4);
@@ -82,14 +82,14 @@ public class SeedData {
         // 6 — Matching
         Matching q6 = new Matching(
                 "Match each Java collection to its defining characteristic.");
-        q6.addPair("ArrayList",    "Backed by a resizable array");
-        q6.addPair("HashMap",      "Stores key-value pairs with O(1) average lookup");
-        q6.addPair("LinkedList",   "Doubly-linked nodes, efficient insertion/removal");
+        q6.addPair("ArrayList", "Backed by a resizable array");
+        q6.addPair("HashMap", "Stores key-value pairs with O(1) average lookup");
+        q6.addPair("LinkedList", "Doubly-linked nodes, efficient insertion/removal");
         test.addQuestion(q6);
         test.addCorrectAnswer("A 1, B 2, C 3");
 
         // ------------------------------------------------------------------ //
-        //  Save the test                                                       //
+        // Save the test //
         // ------------------------------------------------------------------ //
         Path testsDir = Paths.get("tests");
         Files.createDirectories(testsDir);
@@ -98,18 +98,18 @@ public class SeedData {
         System.out.println("Saved: " + testPath);
 
         // ------------------------------------------------------------------ //
-        //  Build and save three responses                                      //
+        // Build and save three responses //
         // ------------------------------------------------------------------ //
         Path responsesDir = Paths.get("responses");
         Files.createDirectories(responsesDir);
 
-        saveResponse(responsesDir, buildAlice(test.getName()),   "Alice",  test.getName());
-        saveResponse(responsesDir, buildBob(test.getName()),     "Bob",    test.getName());
-        saveResponse(responsesDir, buildCarol(test.getName()),   "Carol",  test.getName());
+        saveResponse(responsesDir, buildAlice(test.getName()), "Alice", test.getName());
+        saveResponse(responsesDir, buildBob(test.getName()), "Bob", test.getName());
+        saveResponse(responsesDir, buildCarol(test.getName()), "Carol", test.getName());
     }
 
     // ----------------------------------------------------------------------- //
-    //  Response builders                                                        //
+    // Response builders //
     // ----------------------------------------------------------------------- //
 
     private static SurveyResponse buildAlice(String surveyName) {
@@ -157,12 +157,12 @@ public class SeedData {
 
         TrueFalseResponse r1 = new TrueFalseResponse(
                 "Is Java a purely object-oriented language?");
-        r1.addAnswer("True");   // incorrect on purpose
+        r1.addAnswer("True"); // incorrect on purpose
         sr.addResponse(r1);
 
         MultipleChoiceResponse r2 = new MultipleChoiceResponse(
                 "Which keyword is used to inherit a class in Java?");
-        r2.addAnswer("A");      // incorrect on purpose
+        r2.addAnswer("A"); // incorrect on purpose
         sr.addResponse(r2);
 
         ShortAnswerResponse r3 = new ShortAnswerResponse(
@@ -179,12 +179,12 @@ public class SeedData {
 
         ValidDateResponse r5 = new ValidDateResponse(
                 "What date was the Java 1.0 SE specification released?");
-        r5.addAnswer("1995-05-23");  // incorrect on purpose
+        r5.addAnswer("1995-05-23"); // incorrect on purpose
         sr.addResponse(r5);
 
         MatchingResponse r6 = new MatchingResponse(
                 "Match each Java collection to its defining characteristic.");
-        r6.addAnswer("A 2");    // incorrect on purpose
+        r6.addAnswer("A 2"); // incorrect on purpose
         r6.addAnswer("B 1");
         r6.addAnswer("C 3");
         sr.addResponse(r6);
@@ -233,11 +233,11 @@ public class SeedData {
     }
 
     // ----------------------------------------------------------------------- //
-    //  Helper                                                                   //
+    // Helper //
     // ----------------------------------------------------------------------- //
 
     private static void saveResponse(Path dir, SurveyResponse sr,
-                                     String respondentId, String surveyName)
+            String respondentId, String surveyName)
             throws IOException {
         String ts = LocalDateTime.now().format(TS_FMT);
         String filename = respondentId + "_" + surveyName + "_" + ts + ".ser";
