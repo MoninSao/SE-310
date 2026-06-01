@@ -1,10 +1,10 @@
 package survey;
 
-import survey.driver.SurveyDriver;
+import survey.driver.MainDriver;
 
 /**
  * Application entry point.
- * Constructs a SurveyDriver and starts the menu loop.
+ * Constructs a MainDriver and starts the top-level menu loop.
  */
 public class Main {
 
@@ -14,6 +14,6 @@ public class Main {
      * @param args command-line arguments (not used)
      */
     public static void main(String[] args) {
-        new SurveyDriver().run();
+        new MainDriver().run();
     }
 }

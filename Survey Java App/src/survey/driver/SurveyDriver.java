@@ -22,7 +22,16 @@ public class SurveyDriver {
     private final SurveyManager manager;
 
     /**
-     * Constructs a SurveyDriver, wiring together all collaborators.
+     * Constructs a SurveyDriver with injected collaborators (used by MainDriver).
+     */
+    public SurveyDriver(InputHandler input, OutputHandler output, SurveyManager manager) {
+        this.input = input;
+        this.output = output;
+        this.manager = manager;
+    }
+
+    /**
+     * No-arg constructor for standalone use — creates its own collaborators.
      */
     public SurveyDriver() {
         this.output = new OutputHandler();
@@ -45,7 +54,7 @@ public class SurveyDriver {
         boolean running = true;
         while (running) {
             showMainMenu();
-            int choice = input.readIntInRange("Enter choice: ", 1, 7);
+            int choice = input.readIntInRange("Enter choice: ", 1, 8);
             switch (choice) {
                 case 1:
                     showCreateMenu();
@@ -66,12 +75,13 @@ public class SurveyDriver {
                     manager.modifySurvey();
                     break;
                 case 7:
-                    output.println("Goodbye!");
-                    input.close();
+                    manager.tabulateSurvey();
+                    break;
+                case 8:
                     running = false;
                     break;
                 default:
-                    // readIntInRange guarantees 1-7; this branch is unreachable
+                    // readIntInRange guarantees 1-8; this branch is unreachable
                     break;
             }
         }
@@ -89,7 +99,8 @@ public class SurveyDriver {
                 "Save the current Survey",
                 "Take the current Survey",
                 "Modify the current Survey",
-                "Quit");
+                "Tabulate a survey",
+                "Return to previous menu");
         output.printMenu("--- Main Menu ---", options);
     }
 
