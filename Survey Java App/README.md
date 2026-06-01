@@ -1,6 +1,6 @@
 # Survey Java App
 
-A console-based survey system written in Java.  Supports creating, saving, loading, displaying, taking, and modifying surveys that contain six question types: True/False, Multiple Choice, Short Answer, Essay, Valid Date, and Matching.
+A console-based survey and test system written in Java.  Supports creating, saving, loading, displaying, taking, grading, and modifying surveys and tests that contain six question types: True/False, Multiple Choice, Short Answer, Essay, Valid Date, and Matching.
 
 ---
 
@@ -14,13 +14,17 @@ Survey Java App/
 ├── src/
 │   └── survey/
 │       ├── Main.java                    # Entry point
+│       ├── SeedData.java               # One-time seed: generates sample test + responses
 │       ├── driver/
-│       │   └── SurveyDriver.java        # Menu controller
+│       │   ├── MainDriver.java          # Top-level menu (survey vs. test)
+│       │   ├── SurveyDriver.java        # Survey menu controller
+│       │   └── TestDriver.java          # Test menu controller
 │       ├── io/
 │       │   ├── InputHandler.java        # Validated console input helpers
 │       │   └── OutputHandler.java       # Centralised console output
 │       ├── manager/
-│       │   └── SurveyManager.java       # Survey lifecycle (create/save/load/take/modify)
+│       │   ├── SurveyManager.java       # Survey lifecycle (create/save/load/take/modify)
+│       │   └── TestManager.java         # Test lifecycle (create/save/load/take/grade/modify)
 │       └── model/
 │           ├── Survey.java              # Survey domain object (serializable)
 │           ├── SurveyResponse.java      # One respondent's complete answers (serializable)
@@ -43,7 +47,12 @@ Survey Java App/
 ├── surveys/            # Serialized survey files (*.ser)
 │   ├── MySurvey.ser
 │   └── sample_survey.ser
+├── tests/              # Serialized test files (*.ser)
+│   └── all_question_types_test.ser
 └── responses/          # Serialized response files (*.ser)
+    ├── Alice_all_question_types_test_<ts>.ser
+    ├── Bob_all_question_types_test_<ts>.ser
+    └── Carol_all_question_types_test_<ts>.ser
 ```
 
 ---
@@ -85,12 +94,31 @@ Compilation successful. Class files written to: out/
 
 ## Sample Files
 
+### Surveys
+
 | File | Description |
 |------|-------------|
 | `surveys/MySurvey.ser` | A pre-built sample survey you can load immediately |
 | `surveys/sample_survey.ser` | A second pre-built survey demonstrating all question types |
 
-To load a sample, choose **3) Load an existing Survey** from the main menu and select the file.
+To load a sample, choose **3) Load an existing Survey** from the main Survey menu and select the file.
+
+### Tests
+
+| File | Description |
+|------|-------------|
+| `tests/all_question_types_test.ser` | A pre-built test with one question of every type (True/False, Multiple Choice, Short Answer, Essay, Valid Date, Matching) and a stored correct answer for each auto-gradeable question |
+
+Three pre-seeded response files for this test are included in `responses/` (respondents: Alice, Bob, Carol).  
+To explore them:
+1. Choose **2) Test System** from the main menu.
+2. Load `all_question_types_test` via **4) Load an existing Test**.
+3. Use **8) Tabulate** to see aggregated results, or **9) Grade** to score an individual response.
+
+To regenerate the seed files from scratch (e.g. after a serialization-breaking change):
+```bash
+java -cp out survey.SeedData
+```
 
 ---
 
