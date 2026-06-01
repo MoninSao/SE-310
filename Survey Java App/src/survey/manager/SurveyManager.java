@@ -362,6 +362,76 @@ public class SurveyManager {
     }
 
     // -------------------------------------------------------------------------
+    // Tabulation
+    // -------------------------------------------------------------------------
+
+    /**
+     * Scans RESPONSES_DIR for all *.ser files, deserializes each as a
+     * SurveyResponse, and returns only those whose stored survey name matches
+     * the given name. No filename parsing is performed — the match uses the
+     * surveyName field stored inside the object.
+     *
+     * @param surveyName the name to filter by
+     * @return list of matching SurveyResponse objects
+     */
+    public List<SurveyResponse> loadResponsesForSurvey(String surveyName) {
+        List<SurveyResponse> result = new ArrayList<>();
+        if (!Files.exists(RESPONSES_DIR)) {
+            return result;
+        }
+        try (Stream<Path> stream = Files.list(RESPONSES_DIR)) {
+            List<Path> files = stream
+                    .filter(p -> p.getFileName().toString().endsWith(".ser"))
+                    .collect(Collectors.toList());
+            for (Path file : files) {
+                try {
+                    SurveyResponse sr = SurveyResponse.load(file);
+                    if (sr.getSurveyName().equals(surveyName)) {
+                        result.add(sr);
+                    }
+                } catch (IOException | ClassNotFoundException e) {
+                    output.printError("Skipping unreadable response file '"
+                            + file.getFileName() + "': " + e.getMessage());
+                }
+            }
+        } catch (IOException e) {
+            output.printError("Could not list responses directory: " + e.getMessage());
+        }
+        return result;
+    }
+
+    /**
+     * Tabulates all collected responses for the current survey.
+     * For each question at index i, gathers the per-question Response from
+     * every taker (by position) and delegates to question.tabulate().
+     * Displays a spec-required error message if no survey is loaded.
+     */
+    public void tabulateSurvey() {
+        if (!hasCurrentSurvey()) {
+            output.println("You must have a survey loaded in order to tabulate it.");
+            return;
+        }
+        List<SurveyResponse> allResponses = loadResponsesForSurvey(currentSurvey.getName());
+        if (allResponses.isEmpty()) {
+            output.println("No responses found for survey '" + currentSurvey.getName() + "'.");
+            return;
+        }
+        List<Question> questions = currentSurvey.getQuestions();
+        output.println("=== Tabulation: " + currentSurvey.getName()
+                + " (" + allResponses.size() + " response(s)) ===");
+        for (int i = 0; i < questions.size(); i++) {
+            List<Response> forThisQ = new ArrayList<>();
+            for (SurveyResponse sr : allResponses) {
+                List<Response> responses = sr.getResponses();
+                if (i < responses.size()) {
+                    forThisQ.add(responses.get(i));
+                }
+            }
+            questions.get(i).tabulate(forThisQ, output);
+        }
+    }
+
+    // -------------------------------------------------------------------------
     // Helpers
     // -------------------------------------------------------------------------
 
